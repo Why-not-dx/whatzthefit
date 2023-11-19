@@ -7,9 +7,8 @@ def detail(request, pk):
     related_items = Item.objects.filter(category=item.category).exclude(pk=pk)[0:3]
 
     if request.method == "POST" and "fit_value" in request.POST:
-        fit_value = request.POST["fit_value"]
-        posted = request.POST.get("fit_value")
-        print(posted)
+        pass
+        
 
 
     return render(
