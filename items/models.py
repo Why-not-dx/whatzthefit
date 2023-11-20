@@ -49,7 +49,8 @@ class Item(models.Model):
     body = models.ForeignKey(Body, related_name="body_items", on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name 
+
 
 
 class Posts(models.Model):
@@ -61,3 +62,6 @@ class Posts(models.Model):
     class Meta:
         ordering = ('post_date', "item")
         verbose_name_plural = "Posts"
+
+    def __str__(self) -> str:
+        return f"{self.poster.username} - {self.item.name}"
