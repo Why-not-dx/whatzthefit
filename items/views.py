@@ -1,23 +1,29 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
 from .models import Item, Posts
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, new_post
 
 def detail(request, pk):
-    item =get_object_or_404(Item, pk=pk)
+    item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category).exclude(pk=pk)[0:3]
 
+    fitgrade = Posts.objects.filter(item=item).aggregate(Avg("fit_grade", default=0))
+    fitmeter = fitgrade['fit_grade__avg']
 
     if request.method == "POST":
+        # Only 1 post per user and items
         form = new_post(request.POST)
+        user_contrib_items = Posts.objects.filter(item=item, poster=request.user).exists()
 
-        if form.is_valid():
+        if form.is_valid() and not user_contrib_items :
             user_post = form.save(commit=False)
             user_post.item = item
-            user_post.poster = request.user  # Assuming user is logged in
+            user_post.poster = request.user  # Assuming user is logged in maybe add a condition in HTML
             user_post.save()
-            # Redirect or perform actions after saving the form
+            # Implement a pop up for the page when the form is checked and 
+            # reload it with the new grade up.
 
     else:
         # Pass initial data to the form
@@ -31,6 +37,7 @@ def detail(request, pk):
             "item":item,
             "related_items":related_items,
             "new_form":form,
+            "fitmeter": fitmeter
         }
     )
 
