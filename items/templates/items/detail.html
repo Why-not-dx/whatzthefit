@@ -54,10 +54,48 @@
                                 </div>
                             {% endif %}
 
-                            <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
+                            {% if contributed %}
+                                <button class="mt-6 py-4 px-8 text-lg bg-red-500 hover:bg-red-700 rounded-xl text-white font-bold">
+                                Edit
+                                </button>
+                            {% else %}
+                                <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white font-bold">
+                                Submit
+                                </button>
+                            {% endif %}
+                            
                         </form>
                 {% else %}
                     <div class="mb-6 py-6 text-b"><p class="text-teal-500 font-bold">Log in to add your own impression</p></div>
+                {% endif %}
+
+
+
+                <style>
+                    .error {
+                        padding: .5em;
+                        margin-top: 1em;
+                        border-radius: 1em;
+                        text-align: center;
+                        color: white;
+                        font-weight: bold;
+                        background: red;
+                    }
+                    .success {
+                        padding: .5em;
+                        margin: 1em;
+                        border-radius: 1em;
+                        text-align: center;
+                        color: white;
+                        font-weight: bold;
+                        background: green;
+                    }
+                </style>
+
+                {% if messages %}                
+                    {% for message in messages %}
+                        <div class = "{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
                 {% endif %}
                 
             </div>

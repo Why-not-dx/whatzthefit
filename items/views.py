@@ -1,35 +1,48 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg
 from .models import Item, Posts
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, new_post
+from django.contrib import messages
+
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category).exclude(pk=pk)[0:3]
 
-    fitgrade = Posts.objects.filter(item=item).aggregate(Avg("fit_grade", default=0))
-    fitmeter = fitgrade['fit_grade__avg']
+    
+    user_contrib_items = Posts.objects.filter(item=item, poster=request.user).first()
 
     if request.method == "POST":
         # Only 1 post per user and items
-        form = new_post(request.POST)
-        user_contrib_items = Posts.objects.filter(item=item, poster=request.user).exists()
-
-        if form.is_valid() and not user_contrib_items :
+        if user_contrib_items:
+            form = new_post(request.POST, instance=user_contrib_items)
+        else:
+            form = new_post(request.POST)
+        
+        if form.is_valid():
             user_post = form.save(commit=False)
             user_post.item = item
             user_post.poster = request.user  # Assuming user is logged in maybe add a condition in HTML
             user_post.save()
-            # Implement a pop up for the page when the form is checked and 
-            # reload it with the new grade up.
+            messages.add_message(request, messages.SUCCESS, "Thanks for you help !")
+            #TODO/ reload the page with updated grade ? 
+            #TODO/ change submit button into edit button if already graded
 
+        else:
+            # form = new_post(initial={'item': item.id}) 
+            messages.add_message(request, messages.ERROR, "Someting went wrong, please try again")
+                
     else:
-        # Pass initial data to the form
-        form = new_post(initial={'item': item.id}) 
-        
+        if user_contrib_items:
+            form = new_post(instance=user_contrib_items)
 
+        else:
+            form = new_post(initial={'item': item.id})
+    fitgrade = Posts.objects.filter(item=item).aggregate(Avg("fit_grade", default=0))
+    fitmeter = round(fitgrade['fit_grade__avg'], 1)
+    #/TODO add a remove button to remove the users post if they confused products
+    
     return render(
         request,
         "items/detail.html",
@@ -37,11 +50,11 @@ def detail(request, pk):
             "item":item,
             "related_items":related_items,
             "new_form":form,
-            "fitmeter": fitmeter
+            "fitmeter": fitmeter,
+            "contributed": user_contrib_items,
         }
     )
 
-#TODO/ A user can only post 1 fit grade per item
 #TODO/ we can't add an item that already exists : either make admin check forms before they go or create a filter
 #TODO/ make it so a user can chose a brand OR create abrand by overriding a modelsForm widget class
 

@@ -39,5 +39,4 @@ class new_post(forms.ModelForm):
         widgets = {
             "fit_grade": forms.NumberInput(
                 attrs={"class": INPUT_CLASSES}
-                )}
-        
+                )}  
