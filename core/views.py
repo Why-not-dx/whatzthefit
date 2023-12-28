@@ -51,15 +51,15 @@ def logout_user(request):
 @login_required(redirect_field_name="/welcome/")
 def account(request):
     user_items = Item.objects.filter(created_by=request.user)
-    user_contribs = Posts.objects.filter(poster=request.user)[0:3]
-
+    items_with_user_posts = Item.objects.filter(item_posts__poster=request.user)
+    
     return render(
         request,
         "core/account.html",
         {
             "items":user_items,
-            "contribs":user_contribs,
-            "has_contribs": user_contribs.exists(),
+            "contribs":items_with_user_posts,
+            "has_contribs": items_with_user_posts.exists(),
             "has_items": user_items.exists(),
 
         }
