@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from items.models import Item, Brand, Category
+from items.models import Item, Brand, Category, Posts
 from .forms import SignUpForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -46,3 +46,21 @@ def logout_user(request):
     logout(request)
 
     return redirect("/")
+
+
+@login_required(redirect_field_name="/welcome/")
+def account(request):
+    user_items = Item.objects.filter(created_by=request.user)
+    user_contribs = Posts.objects.filter(poster=request.user)[0:3]
+
+    return render(
+        request,
+        "core/account.html",
+        {
+            "items":user_items,
+            "contribs":user_contribs,
+            "has_contribs": user_contribs.exists(),
+            "has_items": user_items.exists(),
+
+        }
+    )

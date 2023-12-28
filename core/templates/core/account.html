@@ -1,0 +1,82 @@
+{% extends "core/base.html" %}
+
+{% block title %}MyAccount{% endblock title %}
+
+{% block content %}
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">{{ request.user.username }}</h2>
+
+        <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">Items you added</h2>
+
+        <div class="overflow-x-auto ">
+            <div class="flex flex-no-wrap gap-4">
+
+                {% if not has_items %}
+                    <div class="p-6 bg-gray-200 rounded-b-xl">
+                        <p class= "mb-12 text-2xl text-center">You have yet to add an item</p>
+                    </div>
+                    
+                {% else %}
+                
+                    {% for item in items  %}
+                        <div class="flex-shrink-0" style="min-width: 300px; max-width: 300px;">
+                            <a href="{% url 'items:detail' item.id %}">
+                                {% if item.image %}
+                                    <img src="{{item.image.url}}" class="rounded-t-xl" alt="No image yet" style="max-height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-gray-200 w-full h-48 flex items-center justify-center rounded-t-xl">
+                                        <span class="text-gray-400">No image yet</span>
+                                    </div>                        
+                                {% endif %}
+                                    
+                                <div class="p-6 bg-white rounded-b-xl">
+                                    <h2 class="text-2xl">{{item.name}}</h2>
+                                </div>
+
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>  
+        </div>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">Items you helped sizing</h2>
+
+        <div class="overflow-x-auto max-w-full">
+            <div class="grid grid-cols-3 gap-3">
+
+                {% if has_contribs %}
+                    <div class="p-6 bg-gray-200 rounded-b-xl justify-center col-span-3">
+                        <p class= "mb-12 text-2xl text-center">You have yet to contribute to sizing</p>
+                    </div>
+                    
+                {% else %}
+                    {% for item in contribs  %}
+                        <div>
+                            <a href="{% url 'items:detail' item.id %}">
+                                {% if item.image %}
+                                    <img src="{{item.image.url}}" class="rounded-t-xl" alt="No image yet">
+                                {% else %}
+                                    <div class="bg-gray-200 w-full h-48 flex items-center justify-center rounded-t-xl">
+                                        <span class="text-gray-400">No image yet</span>
+                                    </div>                        
+                                {% endif %}
+                                    
+                                <div class="p-6 bg-white rounded-b-xl">
+                                    <h2 class="text-2xl">{{item.name}}</h2>
+                                </div>
+
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+        
+        
+    </div>
+{% endblock content %}

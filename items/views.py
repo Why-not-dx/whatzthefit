@@ -9,7 +9,6 @@ from django.contrib import messages
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category).exclude(pk=pk)[0:3]
-
     
     user_contrib_items = Posts.objects.filter(item=item, poster=request.user).first()
 
