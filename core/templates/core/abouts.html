@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+
+{% block title %}Abouts{% endblock title %}
+
+{% block content %}
+<div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h3 class="mb-5 text-xl font-bold text-gray-700">Website informations</h3>
+            <ul class="flex justify-between">
+                <li><a href="#about" class="font-bold text-xl text-teal-500 hover:text-teal-900">About</a></li>
+                <li><a href="#contact" class="font-bold text-xl text-teal-500 hover:text-teal-900">Contact</a></li>
+                <li><a href="#privacy" class="font-bold text-xl text-teal-500 hover:text-teal-900">Privacy</a></li>
+                <li><a href="#termsofuse" class="font-bold text-xl text-teal-500 hover:text-teal-900">Terms of use</a></li>
+            </ul>
+    </div>
+
+    <div id="about"    class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h3 class="mb-5 text-lg font-bold text-gray-700">About</h3>
+            <p class="text-gray-500 font-medium leading-relaxed">
+                Hi, I'm Anthony, I made this website. <br> It's nothing crazy, but it was fun enough for me to learn how to make a website using Python.  
+                <br>
+                <br>
+                Whatzthefit is a way for you to share and compare how popular clothing might fit on you. For now, the information provided is limited but might expand as time goes.
+                <br>
+                <br>
+                Projects on stand by are : 
+                    <ul class="list-disc ml-6 text-gray-500 font-medium">
+                        <li>Adding information about the users to make the grading system more meaningful by considering factors like height, weight, or other data.</li>
+                        <li>More information about the items is also interesting. Is it see-through? Very short? Maybe it's itchy?</li>
+                    </ul>
+
+            </p>
+
+    </div>
+
+    <div id="privacy"  class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h3 class="mb-5 text-lg font-bold text-gray-700">Privacy</h3>
+        <p class="text-gray-500 font-medium">This website was designed as an exercise to learn web development. No information about the users will be used or shared in any way.</p>
+
+    </div>
+
+    <div id="termsofuse"  class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h3 class="mb-5 text-lg font-bold text-gray-700">Terms of use</h3>
+        <p class="text-gray-500 font-medium">
+            Whatzthefit is purrely informative and takes users input for it's sizing grade. <br>
+            We don't have any team or resource to check on the veracity of the grades. I guess you need to trust the majority !  
+            <br><br>
+            Any user uploading wrong informations, wrong pictures, or anything unrelated to clothing and apparels will be banned and their posts deleted. 
+            Any self promotion or link is prohibited. 
+            <br><br>   
+            The grades can be used on your own projects as long as you credit Whatzthefit. An API might be available soon.
+            <br><br>
+            <strong>NUDITY</strong>
+            <br><br>
+            Nudity in itself is not an issue if the piece of clothing requires it. Models bodies are not considered an offense. 
+            <br> 
+            But unnecessary nudity will be sanctionned. Nudity will be considered unnecessary if the crotch is not covered while the piece of clothing should cover it or if the item is unrelated to those body parts.
+            Breasts are not considered offensive but should never be central to the picture if the item is unrelated to the chest.
+        </p>
+
+    </div>
+
+    <div id="contact"  class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h3 class="mb-5 text-lg font-bold text-gray-700">Contact me</h3>
+        <p class="text-gray-500 font-medium">Add a contact from here.</p>
+
+    </div>
+</div>
+
+{% endblock content %}

@@ -64,3 +64,9 @@ def account(request):
 
         }
     )
+
+def abouts(request):
+    return render(
+        request,
+        "core/abouts.html"
+    )
