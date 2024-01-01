@@ -40,3 +40,25 @@ class new_post(forms.ModelForm):
             "fit_grade": forms.NumberInput(
                 attrs={"class": INPUT_CLASSES}
                 )}  
+        
+
+class search_form(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ["body", "brand", "category"]
+        widgets = {
+            "category": forms.Select(
+                attrs={"class": INPUT_CLASSES}
+            ),
+            "brand": forms.Select(
+                attrs={"class": INPUT_CLASSES}
+            ),
+            "body": forms.Select(
+                attrs={"class": INPUT_CLASSES}
+            ),
+        }
+    def __init__(self, *args, **kwargs):
+        super(search_form, self).__init__(*args, **kwargs)
+        self.fields['category'].required = False
+        self.fields['brand'].required = False
+        self.fields['body'].required = False

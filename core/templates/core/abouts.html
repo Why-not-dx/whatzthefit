@@ -63,7 +63,38 @@
 
     <div id="contact"  class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h3 class="mb-5 text-lg font-bold text-gray-700">Contact me</h3>
-        <p class="text-gray-500 font-medium">Add a contact from here.</p>
+
+        {% if request.user.is_authenticated %}
+        
+        <form action="." method="POST">
+            {% csrf_token %}
+            
+
+            <div class="mb-3">
+                <label class = "inline-block mb-2 text-gray-500 font-bold">Topic</label><br>
+                {{ form.topic }}
+            </div>
+            <div class="mb-3">
+                <label class = "inline-block mb-2 text-gray-500 font-bold">Your message</label><br>
+                {{ form.content }}
+            </div>
+
+
+            {% if form.errors or form.non_fiel_errors %}
+                <div class="mb-3 p6- bg-red-100 rounded-xl">
+                    {% for field in form %}
+                        {{ field.errors }}
+                        {{ form.non_field_errors }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button class='py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white'>Submit</button>
+        
+        </form>
+        {% else %}
+            <div class="mb-6 py-6 text-b"><p class="text-teal-500 font-bold">Please log in to give us your feedback</p></div>
+        {% endif %}
 
     </div>
 </div>

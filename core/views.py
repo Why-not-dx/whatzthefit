@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
-from items.models import Item, Brand, Category, Posts
-from .forms import SignUpForm
+from items.models import Item, Brand, Category
+from .forms import SignUpForm, ContactForm
+from items.forms import search_form
+from django.db.models import Q
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def welcome(request):
@@ -29,8 +32,11 @@ def signup(request):
                 password=form.cleaned_data["password1"],
                 )
             login(request, new_user)
+            messages.add_message(request, messages.SUCCESS, "Thanks for your message !")
 
             return redirect("/")
+        else:
+            messages.add_message(request, messages.SUCCESS, "Something went wrong, please try again.")
 
     else:
         form = SignUpForm()
@@ -66,7 +72,73 @@ def account(request):
     )
 
 def abouts(request):
+    #/TODO create the contact form and check how to recieve messages -> create a model to have it in a data base and then sees them in the admin page
+    # also need to add a post validation and a number a post per hour restriction for users to avoid botting
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            user_post = form.save(commit=False)
+            user_post.user = request.user
+            user_post.save()
+            messages.add_message(request, messages.SUCCESS, "Thanks for your comment !")
+            return redirect("/")
+
+    else:
+        form = ContactForm()
+    
     return render(
         request,
-        "core/abouts.html"
+        "core/abouts.html", {
+            "form": form
+        }
+    )
+
+def browse(request):
+    query = request.GET.get('query', '')
+    items = Item.objects.all().order_by("created_at")
+
+    if request.method == "GET":
+        form = search_form(request.GET)
+
+        if form.is_valid():
+            # form.save()
+            cat_form = form.cleaned_data["category"] 
+            brand_form = form.cleaned_data["brand"] 
+            body_form = form.cleaned_data["body"] 
+            if cat_form or brand_form or body_form:
+                filters = Q()
+                if cat_form:
+                    filters &= Q(category=cat_form)
+                if brand_form:
+                    filters &= Q(brand=brand_form)
+                if body_form:
+                    filters &= Q(body=body_form)
+
+                if filters:
+                    items = items.filter(filters)
+                
+                return render(
+                    request,
+                    "core/browse.html",{
+                        "items":items,
+                        "query": query,
+                        "form": form,}
+
+    )
+
+    else:
+        form = search_form()
+        
+
+    if query:
+        items = items.filter(Q(name__icontains=query) | Q(details__icontains=query))
+    
+    return render(
+        request,
+        "core/browse.html",{
+            "items":items,
+            "query": query,
+            "form": form,}
+
     )

@@ -24,7 +24,7 @@ def detail(request, pk):
             user_post.item = item
             user_post.poster = request.user  # Assuming user is logged in maybe add a condition in HTML
             user_post.save()
-            messages.add_message(request, messages.SUCCESS, "Thanks for you help !")
+            messages.add_message(request, messages.SUCCESS, "Thanks for your help !")
             #TODO/ reload the page with updated grade ? 
             #TODO/ change submit button into edit button if already graded
 

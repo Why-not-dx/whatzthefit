@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Message
 
 
 class SignUpForm(UserCreationForm):
@@ -37,3 +38,16 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs ={
             "placeholder":"Enter your password", "class": "w-full py-4 px-6 rounded-xl"
             } ), )
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ["topic", "content"]
+        widgets = {
+            "topic": forms.TextInput(
+                attrs={"placeholder":"What is your message about ?", "class": "w-full py-4 px-6 rounded-xl border"}
+            ),
+            "content": forms.Textarea(
+                attrs={"class": "w-full py-4 px-6 rounded-xl border-2 border-gray-500"}
+            ),
+        }
