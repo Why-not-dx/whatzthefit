@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg
-from .models import Item, Posts
+from .models import Item, Posts, Brand
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, new_post
 from django.contrib import messages
@@ -59,9 +59,57 @@ def detail(request, pk):
 
 @login_required
 def new_item(request):
-    form = NewItemForm()
+    brands = Brand.objects.all()
+
+    if request.method == "POST":
+        form = NewItemForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            form_data = form.data
+            brand_name = form_data['brand']
+            new_brand_name = form_data["new_brand"]
+            print("brand :", brand_name, "new brand name : ", new_brand_name)
+
+            if brand_name.lower() == "other":
+                print("other")
+                
+                brand, created = Brand.objects.get_or_create(name=new_brand_name)
+                # Use get_or_create to get an existing brand or create a new one then create the item
+                Item.objects.create(
+                    name=cleaned_data['name'],
+                    body_id=cleaned_data['body'],
+                    category_id=cleaned_data['category'],
+                    details=cleaned_data['details'],
+                    image=cleaned_data['image'],
+                    brand=brand,
+                    )
+
+            else:
+                brand_instance = Brand.objects.get(name=cleaned_data['brand'])
+                
+                Item.objects.create(
+                    name=cleaned_data['name'],
+                    body_id=cleaned_data['body'],
+                    category_id=cleaned_data['category'],
+                    details=cleaned_data['details'],
+                    image=cleaned_data['image'],
+                    brand=brand_instance,
+                    )
+
+            
+
+            
+            
+            
+
+            return redirect("/")
+
+    else:
+        form = NewItemForm()
 
     return render(request, "items/form.html", {
         "form": form,
-        "title": "New item"
+        "title": "New item",
+        "brands": brands
     })
