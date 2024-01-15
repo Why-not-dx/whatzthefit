@@ -4,13 +4,17 @@ from .models import Item, Posts, Brand
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, new_post
 from django.contrib import messages
+from django import forms
 
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category).exclude(pk=pk)[0:3]
+    if request.user.is_authenticated:
+        user_contrib_items = Posts.objects.filter(item=item, poster=request.user).first()
+    else:
+        user_contrib_items = ""
     
-    user_contrib_items = Posts.objects.filter(item=item, poster=request.user).first()
 
     if request.method == "POST":
         # Only 1 post per user and items
@@ -69,8 +73,21 @@ def new_item(request):
             form_data = form.data
             brand_name = form_data['brand']
             new_brand_name = form_data["new_brand"]
-            print("brand :", brand_name, "new brand name : ", new_brand_name)
 
+            # Check on file size
+            try :
+                form.image_auth()
+            except forms.ValidationError as e:
+                
+                render(
+                    request, 
+                    "items/form.html", 
+                    {"form": form, "title": "New item","brands": brands}
+                    )
+                messages.add_message(request, messages.ERROR, e.message)
+
+
+            # check if brand set on "other"
             if brand_name.lower() == "other":
                 print("other")
                 
@@ -96,12 +113,6 @@ def new_item(request):
                     image=cleaned_data['image'],
                     brand=brand_instance,
                     )
-
-            
-
-            
-            
-            
 
             return redirect("/")
 

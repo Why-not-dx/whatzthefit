@@ -9,7 +9,7 @@ from django.contrib import messages
 
 
 def welcome(request):
-    items = Item.objects.all().order_by("created_at")[0:6]
+    items = Item.objects.all().order_by("-created_at")[:6]
     brands = Brand.objects.all()
     categories = Category.objects.all()
     
@@ -133,6 +133,12 @@ def browse(request):
 
     if query:
         items = items.filter(Q(name__icontains=query) | Q(details__icontains=query))
+        return render(
+                    request,
+                    "core/browse.html",{
+                        "items":items,
+                        "query": query,
+                        "form": form,})
     
     return render(
         request,

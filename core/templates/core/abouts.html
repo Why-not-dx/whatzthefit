@@ -52,11 +52,9 @@
             The grades can be used on your own projects as long as you credit Whatzthefit. An API might be available soon.
             <br><br>
             <strong>NUDITY</strong>
-            <br><br>
-            Nudity in itself is not an issue if the piece of clothing requires it. Models bodies are not considered an offense. 
-            <br> 
-            But unnecessary nudity will be sanctionned. Nudity will be considered unnecessary if the crotch is not covered while the piece of clothing should cover it or if the item is unrelated to those body parts.
-            Breasts are not considered offensive but should never be central to the picture if the item is unrelated to the chest.
+            <br><br> 
+            Moderation will remove any content where nudity is clearly not necessary for the item to be showcased.
+            Full nudity and sexual content  is forbidden
         </p>
 
     </div>
@@ -93,7 +91,7 @@
         
         </form>
         {% else %}
-            <div class="mb-6 py-6 text-b"><p class="text-teal-500 font-bold">Please log in to give us your feedback</p></div>
+            <div class="mb-6 py-6 text-b"><a href= "{% url 'core:signup' %}" class="text-teal-500 font-bold hover:text-blue-600">Please log in to give me your feedback</p></div>
         {% endif %}
 
     </div>

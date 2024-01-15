@@ -1,15 +1,27 @@
 from django import forms
 from .models import Item, Posts, Brand, Body, Category
-
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 INPUT_CLASSES = "w-full py-4 px-6 rounded-xl border"
 
 
 class NewItemForm(forms.Form):
 
+
     body_choices = tuple(Body.objects.all().values_list())
     cat_choices = tuple(Category.objects.all().values_list())
 
+    def image_auth(image):
+            max_size = settings.MAX_UPLOAD_SIZE
+            curr_size = image.size
+            if image:
+                if curr_size > max_size:
+                    raise forms.ValidationError(_(f'Please keep image under {int(max_size/1024)} Ko. Current filesize {int(curr_size/1024)} Ko'))
+            else:
+                raise forms.ValidationError(_('File type is not supported'))
+            return image
     name = forms.CharField(
         max_length=255, 
         widget=forms.TextInput(attrs={"class": INPUT_CLASSES})
@@ -32,6 +44,7 @@ class NewItemForm(forms.Form):
         widget=forms.Textarea(attrs={"class": INPUT_CLASSES})
         )
     image = forms.ImageField(
+        validators=[image_auth],
         widget=forms.FileInput(attrs={"class": INPUT_CLASSES})
         )
 
@@ -47,41 +60,7 @@ class NewItemForm(forms.Form):
 
             # Set the value of the brand field to the entered new brand value
             cleaned_data['brand'] = new_brand_name
-
-            # You can perform additional validation or actions here if needed
-
-        return cleaned_data
-
-
-# class NewItemForm(forms.ModelForm):
-
-#     brand = forms.CharField(
-#         max_length=100, 
-#         required=True, 
-#         widget=forms.TextInput(
-#             attrs={"class": "w-full py-4 px-6 rounded-xl border", "id": "brand-input"}
-#             ))
-
-#     class Meta:
-#         model = Item
-#         fields = ["name", "body", "brand", "category", "details", "image"]
-#         widgets = {
-#             "category": forms.Select(
-#                 attrs={"class": INPUT_CLASSES}
-#             ),
-#             "name": forms.TextInput(
-#                 attrs={"class": INPUT_CLASSES}
-#             ),
-#             "details": forms.Textarea(
-#                 attrs={"class": INPUT_CLASSES}
-#             ),
-#             "body": forms.Select(
-#                 attrs={"class": INPUT_CLASSES}
-#             ),
-#             "image": forms.FileInput(
-#                 attrs={"class": INPUT_CLASSES}
-#             ),
-#         }
+        return cleaned_data   
 
 
 class new_post(forms.ModelForm):
