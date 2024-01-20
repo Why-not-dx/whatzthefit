@@ -18,11 +18,33 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls")),
     path("items", include("items.urls")),
-    path("__debug__/", include("debug_toolbar.urls"))
-]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path("__debug__/", include("debug_toolbar.urls")),
+    path('', include('django.contrib.auth.urls')),
+    path("password-reset/", 
+         auth_views.PasswordResetView.as_view(
+             template_name="fitweb/password_reset.html"
+             ),  
+             name="password_reset"), 
+    path("password-reset/done/", 
+         auth_views.PasswordResetDoneView.as_view(
+             template_name="fitweb/password_reset_done.html"
+             ),  
+             name="password_reset_done"), 
+    path("password-reset/confirm/<uidb64>/<token>/", 
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name="fitweb/password_reset_confirm.html"
+             ),  
+             name="password_reset_confirm"), 
+    path("password-reset/complete/", 
+         auth_views.PasswordResetCompleteView.as_view(
+             template_name="fitweb/password_reset_complete.html"
+             ),
+             name="password_reset_complete"), 
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 # Carefull don't keep for the final version -> link to online data base

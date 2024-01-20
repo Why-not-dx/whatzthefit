@@ -13,8 +13,10 @@
             </form>
 
             <hr class ="my-6" >
+            
             <form action="." method="GET">
                 {% csrf_token %}
+                <div class="space-y-4">
                     <div class="text-gray-600">
                         <label class = "inline-block mb-2">Category</label><br>
                         {{ form.category }}
@@ -28,7 +30,7 @@
                         {{ form.body}}
                     </div>
                     <button class='mt-4 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white'>Search</button>
-
+                </div>
             <hr class ="my-6" >
                         
             <ul>
@@ -63,7 +65,6 @@
                                 
                             <div class="p-6 bg-white rounded-b-xl">
                                 <h2 class="text-2xl">{{item.name}}</h2>
-                                <p class="text-gray-500">Fitmeter: </p>
                             </div>
 
                         </a>

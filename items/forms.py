@@ -22,6 +22,13 @@ class NewItemForm(forms.Form):
             else:
                 raise forms.ValidationError(_('File type is not supported'))
             return image
+    
+    def no_url_check(text):
+        if "http://" in text or "https://" in text or "www." in text:
+            raise forms.ValidationError("As a safety measure, we don't allow urls in the description. Please remove it and try again.")
+        else:
+            return text
+
     name = forms.CharField(
         max_length=255, 
         widget=forms.TextInput(attrs={"class": INPUT_CLASSES})
@@ -40,6 +47,7 @@ class NewItemForm(forms.Form):
         widget=forms.Select(attrs={"class": INPUT_CLASSES})
         )
     details = forms.CharField(
+        validators=[no_url_check],
         required=False,
         widget=forms.Textarea(attrs={"class": INPUT_CLASSES})
         )

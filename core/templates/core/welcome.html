@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="mt-6 px-6 py-12 bg-gray-200 rounded-xl">
-        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+        <h2 class="mb-12 text-3xl text-center font-bold text-teal-500">Newest items</h2>
 
         <div class="flex flex-wrap">
             {% for item in items  %}
@@ -23,7 +23,6 @@
                             
                         <div class="p-6 bg-white rounded-b-xl">
                             <h2 class="text-2xl">{{item.name}}</h2>
-                            <p class="text-gray-500">Fitmeter: </p>
                         </div>
 
                     </a>
