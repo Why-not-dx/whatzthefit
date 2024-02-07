@@ -22,15 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("DJANGO_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 60
+SECURE_SSL_REDIRECT = True
 
 EMAIL_BACKEND =  'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.hostinger.com'
+EMAIL_PORT = 465
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL")
-EMAIL_HOST_PASSWORD = os.environ.get("DJANGO_PASS")
+EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASS")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
@@ -92,9 +95,23 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASS"),
+        "HOST": "fr-int-web1231.main-hosting.eu",
+        "PORT": "3306",
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         "NAME": os.environ.get("DB_NAME"),
+#         "USER": os.environ.get("DB_USER"),
+#         "PASSWORD": os.environ.get("DB_PASS"),
+#         "HOST": "fr-int-web1231.main-hosting.eu",
+#         "PORT": "3306",
+#     }
+# }
 
 
 # Password validation
