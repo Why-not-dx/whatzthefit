@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, ValidationError
 
 
-
-
-
 class Category(models.Model):
     name = models.CharField(max_length=300)
 
@@ -49,7 +46,7 @@ class Item(models.Model):
     category = models.ForeignKey(Category, related_name="category_items", on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, related_name = "items", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="items_images", blank=True, null=True)
-    body = models.ForeignKey(Body, related_name="body_items", on_delete=models.CASCADE, null=True)
+    body = models.ForeignKey(Body, related_name="body_items", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name 

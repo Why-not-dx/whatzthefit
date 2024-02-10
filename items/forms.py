@@ -9,9 +9,13 @@ INPUT_CLASSES = "w-full py-4 px-6 rounded-xl border"
 
 class NewItemForm(forms.Form):
 
+    try:
+        body_choices = tuple(Body.objects.all().values_list())
+        cat_choices = tuple(Category.objects.all().values_list())
+    except:
+        body_choices = tuple(("Man","Woman", "Children"))
+        cat_choices = tuple(("error no categories found",))
 
-    body_choices = tuple(Body.objects.all().values_list())
-    cat_choices = tuple(Category.objects.all().values_list())
 
     def image_auth(image):
             max_size = settings.MAX_UPLOAD_SIZE
