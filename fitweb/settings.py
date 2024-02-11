@@ -25,8 +25,10 @@ SECRET_KEY = os.environ.get("DJANGO_KEY")
 DEBUG = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 60
 SECURE_SSL_REDIRECT = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS =True
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_SECONDS = 3600
 
 EMAIL_BACKEND =  'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
@@ -40,7 +42,10 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.whatzthefit.eu"]
+ADMINS = [
+    ("Anthony", os.environ.get("MY_EMAIL"))
+    ]
 
 # Application definition
 
@@ -98,6 +103,8 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -145,6 +152,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media/"  #setting up the the MEDIA_URL for django to create it and MEDIA_ROOT for it to know where to search for the subfolder name indicated in the models
 

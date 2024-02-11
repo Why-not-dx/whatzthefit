@@ -46,5 +46,6 @@ urlpatterns = [
              template_name="fitweb/password_reset_complete.html"
              ),
              name="password_reset_complete"), 
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+] 
+# + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 # Carefull don't keep for the final version -> link to online data base
