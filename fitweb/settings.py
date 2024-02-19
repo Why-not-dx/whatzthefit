@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_KEY")
+SECRET_KEY = os.getenv("DJANGO_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 SESSION_COOKIE_SECURE = True
@@ -34,8 +38,8 @@ EMAIL_BACKEND =  'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL")
-EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASS")
+EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL")
+EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASS")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
@@ -44,7 +48,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 ALLOWED_HOSTS = ["www.whatzthefit.eu"]
 ADMINS = [
-    ("Anthony", os.environ.get("MY_EMAIL"))
+    ("Anthony", os.getenv("MY_EMAIL"))
     ]
 
 # Application definition
@@ -53,7 +57,6 @@ INSTALLED_APPS = [
     "fitweb",
     "core",
     "items",
-    "debug_toolbar",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,7 +67,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -108,10 +110,10 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASS"),
-        "HOST": os.environ.get("DB_HOST_INGER"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASS"),
+        "HOST": os.getenv("DB_HOST_INGER"),
         "PORT": "3306",
     }
 }
