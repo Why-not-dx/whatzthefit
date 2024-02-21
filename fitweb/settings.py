@@ -46,7 +46,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-ALLOWED_HOSTS = ["www.whatzthefit.eu"]
+ALLOWED_HOSTS = ["www.whatzthefit.eu","162.159.25.42","178.16.128.64","162.159.24.201","127.0.0.1"]
 ADMINS = [
     ("Anthony", os.getenv("MY_EMAIL"))
     ]
