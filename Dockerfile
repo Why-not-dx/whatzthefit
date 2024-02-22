@@ -13,7 +13,11 @@ RUN apk update && \
         libffi-dev \
         openssl-dev \
         zlib-dev \
-        libjpeg-turbo-dev  # Install libjpeg-turbo development headers and library files for JPEG support
+        libjpeg-turbo-dev \ 
+        python3-dev \
+        mariadb-connector-c-dev \
+        mysql-client 
+
 
 COPY ./whatzthefit/requirements.txt .
 RUN pip install -r requirements.txt

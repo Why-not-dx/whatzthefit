@@ -115,6 +115,9 @@ DATABASES = {
         "PASSWORD": os.getenv("DB_PASS"),
         "HOST": os.getenv("DB_HOST_INGER"),
         "PORT": "3306",
+        "OPTIONS": {
+            "sql_mode": "STRICT_ALL_TABLES"
+        }
     }
 }
 
