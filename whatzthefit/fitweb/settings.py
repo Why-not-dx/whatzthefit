@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-load_dotenv()
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,7 +45,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-ALLOWED_HOSTS = ["www.whatzthefit.eu","162.159.25.42","178.16.128.64","162.159.24.201","127.0.0.1"]
+ALLOWED_HOSTS = [_ for _ in os.getenv("ALLOWED_HOSTS")]
+
 ADMINS = [
     ("Anthony", os.getenv("MY_EMAIL"))
     ]
