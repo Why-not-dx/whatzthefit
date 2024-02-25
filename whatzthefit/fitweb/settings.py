@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import json
+from dotenv import load_dotenv
 
-
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -45,7 +48,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-ALLOWED_HOSTS = [_ for _ in os.getenv("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
 
 ADMINS = [
     ("Anthony", os.getenv("MY_EMAIL"))
@@ -113,14 +116,14 @@ DATABASES = {
         "NAME": os.getenv("DB_NAME"),
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASS"),
-        "HOST": os.getenv("DB_HOST_INGER"),
+        "HOST": "db",
         "PORT": "3306",
         "OPTIONS": {
             "sql_mode": "STRICT_ALL_TABLES"
         }
     }
 }
-
+print(os.getenv("DB_NAME"), os.getenv("DB_USER"),os.getenv("DB_PASS"))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -160,6 +163,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media/"  #setting up the the MEDIA_URL for django to create it and MEDIA_ROOT for it to know where to search for the subfolder name indicated in the models
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

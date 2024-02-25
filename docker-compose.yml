@@ -10,13 +10,12 @@ services:
       context: .
     ports:
       - "8080:8080"
-    # depends_on:
-    #   - nginx
 
   nginx:
     build: ./nginx
     volumes:
       - static:/static
+      - media:/media
     ports:
       - "84:84"
     depends_on:
@@ -26,8 +25,11 @@ services:
     image: mysql:oraclelinux8
     container_name: fitweb_mariadb
     restart: always
-    volumes:
-      - data:/var/lib/mysql
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: "B1sEl*Gb"
+    #   MYSQL_DATABASE: 'whatzthefit'
+    #   MYSQL_USER: 'Ynot'
+    #   MYSQL_PASSWORD: 'UjJslMD3*'
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -35,8 +37,13 @@ services:
       MYSQL_PASSWORD: ${DB_PASS}
     ports:
       - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - data:/var/lib/mysql
  
 
 volumes:
   static:
   data:
+  media:
