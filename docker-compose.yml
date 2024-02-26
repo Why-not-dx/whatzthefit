@@ -25,11 +25,6 @@ services:
     image: mysql:oraclelinux8
     container_name: fitweb_mariadb
     restart: always
-    # environment:
-    #   MYSQL_ROOT_PASSWORD: "B1sEl*Gb"
-    #   MYSQL_DATABASE: 'whatzthefit'
-    #   MYSQL_USER: 'Ynot'
-    #   MYSQL_PASSWORD: 'UjJslMD3*'
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
