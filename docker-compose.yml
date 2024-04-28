@@ -1,26 +1,6 @@
 version: "3.7"
 
 services:
-  django_gunicorn:
-    volumes:
-      - static:/static
-    env_file:
-      - /home/ynot/fitweb/whatzthefit/.env
-    build:
-      context: .
-    ports:
-      - "8080:8080"
-
-  nginx:
-    build: ./nginx
-    volumes:
-      - static:/static
-      - media:/media
-    ports:
-      - "84:84"
-    depends_on:
-      - django_gunicorn
-  
   db:
     image: mysql:oraclelinux8
     container_name: fitweb_mariadb
@@ -36,9 +16,48 @@ services:
       - "3306"
     volumes:
       - data:/var/lib/mysql
+    networks:
+      whatzthefit_default:
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER}", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  django_gunicorn:
+    volumes:
+      - static:/static
+    env_file:
+      - /home/ynot/fitweb/whatzthefit/.env
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      whatzthefit_default:
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+      - media:/media
+    ports:
+      - "84:84"
+    depends_on:
+      - django_gunicorn
+    networks:
+      whatzthefit_default:
+  
+
  
 
 volumes:
   static:
   data:
   media:
+
+networks:
+  whatzthefit_default:
+    external: true
