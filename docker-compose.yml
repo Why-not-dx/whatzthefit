@@ -2,22 +2,21 @@ version: "3.7"
 
 services:
   db:
+    build: .
     image: mysql:oraclelinux8
     container_name: fitweb_mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: 'SaLr2024'
+      MYSQL_DATABASE: 'whatzthefit'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'SaLr2024'
     ports:
       - "3306:3306"
     expose:
       - "3306"
     volumes:
-      - data:/var/lib/mysql
-    networks:
-      whatzthefit_default:
+      -data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER}", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
@@ -35,8 +34,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    networks:
-      whatzthefit_default:
+
 
   nginx:
     build: ./nginx
@@ -47,17 +45,10 @@ services:
       - "84:84"
     depends_on:
       - django_gunicorn
-    networks:
-      whatzthefit_default:
   
-
- 
 
 volumes:
   static:
   data:
   media:
 
-networks:
-  whatzthefit_default:
-    external: true

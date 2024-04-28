@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),docker-co
 #     }
 # }
 
@@ -113,9 +113,9 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASS"),
+        "NAME": 'whatzthefit',
+        "USER": 'root',
+        "PASSWORD": 'SaLr2024',
         "HOST": "db",
         "PORT": "3306",
         "OPTIONS": {
