@@ -47,8 +47,12 @@ LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+# print(os.getenv("ALLOWED_HOSTS").split(" "), type(os.getenv("ALLOWED_HOSTS").split(" ")[0]))
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ["localhost",]
+
+
 
 ADMINS = [
     ("Anthony", os.getenv("MY_EMAIL"))
@@ -115,7 +119,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         "NAME": 'whatzthefit',
         "USER": 'root',
-        "PASSWORD": 'SaLr2024',
+        "PASSWORD": 'password',
         "HOST": "db",
         "PORT": "3306",
         "OPTIONS": {
