@@ -31,3 +31,4 @@ gunicorn==21.2.0
 pillow==10.2.0
 mysqlclient>=2.1.0<3
 mysql-connector-python>=8.1.0<9
+django-environ>=0.11.0<1
