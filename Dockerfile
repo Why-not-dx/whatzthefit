@@ -18,7 +18,6 @@ RUN apk update && \
         mariadb-connector-c-dev \
         mysql-client 
 
-# ADD wait_for_db_and_start_server.sh .
 
 COPY ./whatzthefit/requirements.txt .
 RUN pip install -r requirements.txt
