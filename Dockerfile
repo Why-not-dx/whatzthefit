@@ -1,5 +1,8 @@
-FROM python:3.13.0a4-alpine
+FROM python:3.13.0a6-alpine3.19
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE fitweb.settings
 
 RUN pip install --upgrade pip
 
@@ -23,6 +26,8 @@ COPY ./whatzthefit/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./whatzthefit /app
+
+COPY .env /.env
 
 WORKDIR /app
 

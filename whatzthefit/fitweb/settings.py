@@ -12,27 +12,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import environ
+from dotenv import load_dotenv
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+# import environment variables | doesn't need to be in a variable
+load_dotenv(override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR.parent, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.getenv("DJANGO_KEY")
-SECRET_KEY = env("DJANGO_KEY")
+SECRET_KEY = os.getenv("DJANGO_KEY")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = env('DEBUG')
+DEBUG = int(os.getenv("DEBUG"))
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
@@ -44,18 +41,18 @@ EMAIL_BACKEND =  'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env("DJANGO_EMAIL")
-EMAIL_HOST_PASSWORD = env("MAIL_PASS")
+EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL")
+EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASS")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
 
 ADMINS = [
-    ("Anthony", env("MY_EMAIL"))
+    ("Anthony", os.getenv("MY_EMAIL"))
     ]
 
 # Application definition
@@ -109,9 +106,9 @@ WSGI_APPLICATION = 'fitweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        "NAME":env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASS"),
+        "NAME":os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASS"),
         "HOST": "db",
         "PORT": "3306",
         "OPTIONS": {

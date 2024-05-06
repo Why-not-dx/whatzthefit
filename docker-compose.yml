@@ -5,10 +5,10 @@ services:
     image: mysql:oraclelinux8
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
     ports:
       - "3306:3306"
     expose:
@@ -16,10 +16,10 @@ services:
     volumes:
       - data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER}", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
 
   django_gunicorn:
     volumes:
@@ -31,7 +31,11 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      db:
+        condition: service_healthy
+    links:
       - db
+    restart: always
 
 
   nginx:
