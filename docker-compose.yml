@@ -1,8 +1,9 @@
-version: "3.7"
+version: "3.8"
 
 services:
   db:
     image: mysql:oraclelinux8
+    build: .
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -20,6 +21,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - mysql_net
 
   django_gunicorn:
     volumes:
@@ -36,7 +39,8 @@ services:
     links:
       - db
     restart: always
-
+    networks:
+      - mysql_net 
 
   nginx:
     build: ./nginx
@@ -47,12 +51,17 @@ services:
       - "84:84"
     depends_on:
       - django_gunicorn
+    networks:
+      - mysql_net
 
   
 
  
 
 volumes:
-  static:
   data:
+  static:
   media:
+
+networks:
+  - mysql_net
