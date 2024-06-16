@@ -28,7 +28,7 @@ services:
     volumes:
       - static:/static
     env_file:
-      - /home/ynot/fitweb/whatzthefit/.env
+      - /home/ynot/fitweb/.env
     build:
       context: .
     ports:
@@ -64,4 +64,4 @@ volumes:
   media:
 
 networks:
-  - mysql_net
+  mysql_net:
